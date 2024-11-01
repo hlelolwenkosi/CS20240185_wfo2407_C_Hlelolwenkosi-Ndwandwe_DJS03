@@ -48,3 +48,18 @@ const handleCancel = (selector) => () => {
     document.querySelector(selector).open = false;
   };
   
+  // Event listeners for cancel buttons
+document.querySelector("[data-search-cancel]").addEventListener("click", handleCancel("[data-search-overlay]"));
+document.querySelector("[data-settings-cancel]").addEventListener("click", handleCancel("[data-settings-overlay]"));
+
+// Event listener to open search overlay and focus on the search input
+document.querySelector("[data-header-search]").addEventListener("click", () => {
+    document.querySelector("[data-search-overlay]").open = true;
+    document.querySelector("[data-search-title]").focus();
+  });
+  
+// Event listener to open settings overlay
+  document.querySelector("[data-header-settings]").addEventListener("click", () => {
+    document.querySelector("[data-settings-overlay]").open = true;
+  });
+  
