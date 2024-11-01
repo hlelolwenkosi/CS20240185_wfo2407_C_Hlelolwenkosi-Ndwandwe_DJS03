@@ -63,3 +63,39 @@ document.querySelector("[data-header-search]").addEventListener("click", () => {
     document.querySelector("[data-settings-overlay]").open = true;
   });
   
+  // Event listener for settings form submission
+document.querySelector("[data-settings-form]").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const { theme } = Object.fromEntries(formData);
+    const colorDark = theme === "night" ? "255, 255, 255" : "10, 10, 20";
+    const colorLight = theme === "night" ? "10, 10, 20" : "255, 255, 255";
+    document.documentElement.style.setProperty("--color-dark", colorDark);
+    document.documentElement.style.setProperty("--color-light", colorLight);
+    document.querySelector("[data-settings-overlay]").open = false;
+  });
+
+  // Event listener for search form submission
+document.querySelector("[data-search-form]").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const filters = Object.fromEntries(formData);
+    const result = books.filter(
+      ({ title, author, genres }) =>
+        (filters.title.trim() === "" ||
+          title.toLowerCase().includes(filters.title.toLowerCase())) &&
+        (filters.author === "any" || author === filters.author) &&
+        (filters.genre === "any" || genres.includes(filters.genre))
+    );
+    document.querySelector("[data-list-message]").classList[result.length < 1 ? "add" : "remove"]("list__message_show");
+    document.querySelector("[data-list-items]").innerHTML = "";
+    renderBooks(result, BOOKS_PER_PAGE);
+    document.querySelector("[data-list-button]").disabled = result.length <= BOOKS_PER_PAGE;
+    document.querySelector("[data-list-button]").innerHTML = `
+      <span>Show more</span>
+      <span class="list__remaining"> (${Math.max(result.length - BOOKS_PER_PAGE, 0)})</span>
+    `;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    document.querySelector("[data-search-overlay]").open = false;
+  });
+  
