@@ -20,3 +20,22 @@ const renderOptions = (data, selector, defaultValue) => {
     document.querySelector(selector).appendChild(fragment);
   };
   
+  // Function to render books with preview information
+const renderBooks = (matches, limit) => {
+    const fragment = document.createDocumentFragment();
+    matches.slice(0, limit).forEach(({ author, id, image, title }) => {
+      const element = createElement(
+        "button",
+        { class: "preview", "data-preview": id },
+        `<img class="preview__image" src="${image}" />
+        <div class="preview__info">
+          <h3 class="preview__title">${title}</h3>
+          <div class="preview__author">${authors[author]}</div>
+        </div>`
+      );
+      fragment.appendChild(element);
+    });
+    document.querySelector("[data-list-items]").appendChild(fragment);
+  };
+
+  
