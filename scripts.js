@@ -38,4 +38,13 @@ const renderBooks = (matches, limit) => {
     document.querySelector("[data-list-items]").appendChild(fragment);
   };
 
+  // Initial rendering of books and dropdown options
+renderBooks(books, BOOKS_PER_PAGE);
+renderOptions(genres, "[data-search-genres]", "All Genres");
+renderOptions(authors, "[data-search-authors]", "All Authors");
+
+// Function to handle canceling search and settings overlays
+const handleCancel = (selector) => () => {
+    document.querySelector(selector).open = false;
+  };
   
